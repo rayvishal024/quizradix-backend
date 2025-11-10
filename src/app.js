@@ -7,7 +7,7 @@ const app = express();
 
 // setup - middleware
 app.use(cors({
-     "origin": "*",
+     "origin": process.env.CORS_ORIGIN ,
      "methods": "GET,PUT,PATCH,POST,DELETE",
      "preflightContinue": false,
      "optionsSuccessStatus": 204
