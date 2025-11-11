@@ -3,6 +3,10 @@ import cors from 'cors'
 import helmet from 'helmet'
 import cookieParser from 'cookie-parser';
 
+// import all routes
+import authRouter from './routes/auth.router.js'
+
+
 const app = express();
 
 // setup - middleware
@@ -22,5 +26,6 @@ app.use(cookieParser());
 
 
 // set-up routes
+app.use('/api/auth', authRouter);
 
 export default app;
