@@ -18,11 +18,11 @@ export const registerUser = async (req, res) => {
           const hashedPassword = await userModel.hashPassword(password);
 
           // create new user
-          const newUser = new userModel({ name, email, password : hashedPassword, role });
+          const newUser = new userModel({ name, email, password: hashedPassword, role });
           await newUser.save();
 
           return res.status(201).json({
-               success: true, 
+               success: true,
                message: "User registered successfully",
           });
      } catch (error) {
@@ -58,17 +58,23 @@ export const loginUser = async (req, res) => {
           // generate auth token
           const token = user.generateAuthToken();
 
-          return res.status(200).json({
-               success: true,
-               message: "Login successful",
-               token,
-               user : {
-                    id: user._id,
-                    name: user.name,
-                    email: user.email,
-                    role: user.role,
-               }
-          });
+          return res.status(200)
+               .cookie('token', token,
+                    {
+                         httpOnly: true,
+                         maxAge: 24 * 60 * 60 * 1000
+                    })
+               .json({
+                    success: true,
+                    message: "Login successful",
+                    token,
+                    user: {
+                         id: user._id,
+                         name: user.name,
+                         email: user.email,
+                         role: user.role,
+                    }
+               });
      }
      catch (error) {
           console.error("Error in loginUser:", error.message);
