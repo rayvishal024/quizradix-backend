@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 
 // import all routes
 import authRouter from './routes/auth.router.js'
+import otpRouter from './routes/otp.router.js'
 
 
 const app = express();
@@ -27,5 +28,18 @@ app.use(cookieParser());
 
 // set-up routes
 app.use('/api/auth', authRouter);
+app.use('/api/otp', otpRouter);
+
+// Root endpoint
+app.get("/", (req, res) => {
+     res.json({
+          message: "QuizRadix API",
+          version: "1.0.0",
+          endpoints: {
+               auth: "/api/auth",
+               otp: "/api/otp",
+          },
+     });
+});
 
 export default app;
