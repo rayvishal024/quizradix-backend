@@ -1,0 +1,51 @@
+# quizRadix — Backend
+
+A simple, production-ready backend for quizRadix. Keep this repo focused: clear APIs, auth, DB, tests, and deployment.
+
+## Quick overview
+- REST/GraphQL APIs, auth (JWT), quiz & user management.
+- Tech: Node.js + javaScript, Express, MongoDB.
+
+## Quick start
+
+### Prerequisites
+- Node.js 
+- pnpm/npm/
+- mongoDB (or configured DB)
+
+
+### Environment (example .env)
+cp .env example.env
+
+### Install & run
+- Install: npm install
+- Dev: npm run dev
+- Build + run: npm run build && npm start
+
+
+## Database
+- Use migrations and seed scripts.
+- Example (Prisma): npx prisma migrate dev --name init; npx prisma db seed
+
+## API & Auth
+- Version your API: /api/v1/
+- Auth: JWT access + refresh tokens
+- Common routes:
+     - POST /auth/register
+     - POST /auth/login -> { accessToken, refreshToken }
+     - GET /api/v1/quizzes
+     - POST /api/v1/quizzes
+     - GET /api/v1/quizzes/:id
+- Document with OpenAPI/Swagger at /docs
+
+## Testing
+- Unit tests for logic, integration tests for DB.
+- Commands:
+     - npm run test
+     - npm run test:watch
+- Use a separate test DB and reset state between tests.
+
+
+
+## License
+MIT
