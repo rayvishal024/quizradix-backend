@@ -35,7 +35,6 @@ const sendOtpToEmail = async function (email, otp) {
     }
 }
 
-
 // send otp just before saving to database
 otpSchema.pre("save", async function (next) {
      if (this.isNew) {

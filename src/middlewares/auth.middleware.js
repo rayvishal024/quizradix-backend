@@ -39,4 +39,4 @@ const isTutor = (req, res, next) => {
      next();
 }    
 
-export { isloggedIn };
+export { isloggedIn, isTutor };

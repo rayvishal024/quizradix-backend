@@ -3,9 +3,11 @@ import cors from 'cors'
 import helmet from 'helmet'
 import cookieParser from 'cookie-parser';
 
+
 // import all routes
 import authRouter from './routes/auth.router.js'
 import otpRouter from './routes/otp.router.js'
+import quizRouter from './routes/quiz.router.js'
 
 
 const app = express();
@@ -29,6 +31,7 @@ app.use(cookieParser());
 // set-up routes
 app.use('/api/auth', authRouter);
 app.use('/api/otp', otpRouter);
+app.use('/api/quiz', quizRouter);
 
 // Root endpoint
 app.get("/", (req, res) => {
@@ -38,6 +41,7 @@ app.get("/", (req, res) => {
           endpoints: {
                auth: "/api/auth",
                otp: "/api/otp",
+               quiz: "/api/quiz",
           },
      });
 });
