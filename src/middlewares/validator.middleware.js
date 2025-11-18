@@ -9,6 +9,7 @@ export const validateEmail = [
           .normalizeEmail(),
 ]
 
+
 // validate registration data
 export const validateRegistrationData = [
      body('email')
@@ -28,6 +29,24 @@ export const validateRegistrationData = [
           .optional()
           .isIn(['student', 'tutor']).withMessage('Role must be either student or tutor'),
 ]
+
+// validate quiz creation data
+export const validateQuizCreationData = [    
+     body('title')
+          .trim()
+          .notEmpty().withMessage('Quiz title is required'),
+     body('topic')
+          .trim()
+          .notEmpty().withMessage('Quiz topic is required'),
+     body('questionCount')
+          .notEmpty().withMessage('Question count is required')
+          .isInt({ min: 1, max: 50 }).withMessage('Question count must be an integer between 1 and 50'),
+     body('difficulty')
+          .trim()
+          .notEmpty().withMessage('Difficulty level is required')
+          .isIn(['easy', 'medium', 'hard']).withMessage('Difficulty must be either easy, medium, or hard'),
+]
+
 
 // handle validation errors
 export const handleValidationErrors = (req, res, next) => {

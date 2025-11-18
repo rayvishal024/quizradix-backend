@@ -1,11 +1,13 @@
 import quizModel from "../models/quiz.model.js";
 import otpgenerator from "otp-generator";
+import {generateQuiz} from "../utils/generateQuiz.js";
+
 
 // create quiz controller
 export const createQuiz = async (req, res) => {
      
      try {
-          const { title, topic, questions, isPublic } = req.body;
+          const { title, topic, questionCount, difficulty, isPublic, customMessage } = req.body;
 
           // get tutor id from authenticated user
           const tutorId = req.user.id;
@@ -17,6 +19,10 @@ export const createQuiz = async (req, res) => {
                upperCaseAlphabets: true,
                specialChars: false,
           });
+
+          let questions = [];
+          
+          questions = await generateQuiz(topic, questionCount, difficulty, customMessage);
 
           // create new quiz
           const newQuiz = new quizModel({

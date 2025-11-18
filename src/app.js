@@ -33,6 +33,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/otp', otpRouter);
 app.use('/api/quiz', quizRouter);
 
+
 // Root endpoint
 app.get("/", (req, res) => {
      res.json({
