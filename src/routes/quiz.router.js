@@ -17,4 +17,10 @@ router.get('/tutor-quiz', isloggedIn, isTutor, getTutorQuizzes);
 
 router.delete('/delete-quiz', isloggedIn, isTutor, deleteQuiz);
 
+router.get('/test', isloggedIn, isTutor, (req, res) => {
+     res.json({
+          message: "Auth route is working",
+     });
+});
+
 export default router;
