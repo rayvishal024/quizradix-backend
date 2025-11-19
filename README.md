@@ -1,17 +1,17 @@
 # quizRadix — Backend
 
-A simple, production-ready backend for quizRadix. Keep this repo focused: clear APIs, auth, DB, tests, and deployment.
+A simple, production-ready backend for quizRadix. 
 
 ## Quick overview
-- REST/GraphQL APIs, auth (JWT), quiz & user management.
+- REST APIs, auth (JWT), quiz & user management.
 - Tech: Node.js + javaScript, Express, MongoDB.
 
 ## Quick start
 
 ### Prerequisites
 - Node.js 
-- pnpm/npm/
-- mongoDB (or configured DB)
+- npm/ 
+- mongoDB
 
 
 ### Environment (example .env)
@@ -24,8 +24,7 @@ cp .env example.env
 
 
 ## Database
-- Use migrations and seed scripts.
-- Example (Prisma): npx prisma migrate dev --name init; npx prisma db seed
+- MongoDB (mongoose ODM)
 
 ## API & Auth
 - Version your API: /api/v1/
