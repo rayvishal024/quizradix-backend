@@ -96,7 +96,10 @@ backend-api/
 |   ├── utils/           # mailSender, quizGenerator
 │   |── app.js           # Express app 
 │   └── server.ts        # Server entry point
+│── .env
+│── package-lock.json
 └── package.json
+
 ```
 
 ## 🧪 Testing
@@ -134,5 +137,5 @@ Pull requests are welcome!
 If suggesting major changes, please open an issue first.
 
 ## ⭐ Author
-Developed by @Vishal
+Developed by @Vishal <br>
 Backend for the MERN-based quizRadix platform.
