@@ -2,7 +2,7 @@ import express from 'express';
 import { isloggedIn, isTutor } from '../middlewares/auth.middleware.js';
 import { createQuiz, deleteQuiz, getTutorQuizzes } from '../controllers/quiz.controller.js';
 import { validateQuizCreationData, handleValidationErrors } from "../middlewares/validator.middleware.js";
-import { enrollInQuiz } from "../controllers/enrollment.controller.js";
+import { enrollInQuiz } from '../controllers/quiz.controller.js';
 
 const router = express.Router();
 
