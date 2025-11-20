@@ -7,7 +7,7 @@ import {generateQuiz} from "../utils/generateQuiz.js";
 export const createQuiz = async (req, res) => {
      
      try {
-          const { title, topic, questionCount, difficulty, isPublic, customMessage } = req.body;
+          const { title, topic, questionCount, difficulty, isPublic, customMessage, startTime, endTime } = req.body;
 
           // get tutor id from authenticated user
           const tutorId = req.user.id;
@@ -32,6 +32,8 @@ export const createQuiz = async (req, res) => {
                questions,
                isPublic,
                joinCode,
+               startTime,
+               endTime
           });
 
           // save quiz to database

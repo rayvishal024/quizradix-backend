@@ -7,14 +7,17 @@ const quizSchema = new mongoose.Schema({
           ref: "User",
           required: true,
      },
+
      title: {
           type: String,
           required: true,
      },
+
      topic: {
           type: String,
           required: true,
      },
+
      questions: [
           {
                questionText: String,
@@ -22,10 +25,37 @@ const quizSchema = new mongoose.Schema({
                correctAnswer: String,
           }
      ],
+
      isPublic: {
           type: Boolean
      },
+
      joinCode: String,
+
+     enrollments: [
+          {
+               studentId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "User"
+               },
+
+               enrolledAt: {
+                    type: Date,
+                    default: Date.now
+               }
+          }
+     ],
+
+     startTime: {
+          type: Date,
+          required: true
+     },
+
+     endTime: {
+          type: Date,
+          required: true
+     },
+
      createdAt: {
           type: Date,
           default: Date.now,

@@ -95,7 +95,7 @@ backend-api/
 |   ├── socket/          # Socket.io configuration
 |   ├── utils/           # mailSender, quizGenerator
 │   |── app.js           # Express app 
-│   └── server.ts        # Server entry point
+│   └── server.js        # Server entry point
 │── .env
 │── package-lock.json
 └── package.json

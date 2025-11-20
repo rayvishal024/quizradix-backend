@@ -45,6 +45,15 @@ export const validateQuizCreationData = [
           .trim()
           .notEmpty().withMessage('Difficulty level is required')
           .isIn(['easy', 'medium', 'hard']).withMessage('Difficulty must be either easy, medium, or hard'),
+     body('isPublic')
+          .optional()
+          .isBoolean().withMessage('isPublic must be a boolean value'),
+     body('startTime')
+          .notEmpty().withMessage('Start time is required')
+          .isISO8601().withMessage('Start time must be a valid date'),
+     body('endTime')
+          .notEmpty().withMessage('End time is required')
+          .isISO8601().withMessage('End time must be a valid date'),
 ]
 
 

@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
           enum: ["student", "tutor"],
           default: "student",
      }
-});
+}, {timestamps: true});
 
  // methode for generate instance token
 userSchema.methods.generateAuthToken = function () {

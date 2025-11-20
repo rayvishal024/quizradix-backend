@@ -14,11 +14,13 @@ export function initializeSocketServer(server) {
           io.on("connection", (socket) => {
                console.log("New client connected:", socket.id);
                
-               // Testing event
-               socket.on("ping_from_client", () => {
-                    console.log("Ping received");
-                    socket.emit("pong_from_server", "Hello from server!");
+               // Tutor joins their own room based on userId
+               socket.on("join_Tutor_Room", (tutorId) => {
+                    socket.join(tutorId);
+                    console.log(`Tutor with ID: ${tutorId} joined their room.`);
                });
+
+               
 
           // handle disconnection
           socket.on("disconnect", () => {
