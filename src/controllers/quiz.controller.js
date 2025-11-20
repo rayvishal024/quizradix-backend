@@ -121,6 +121,7 @@ export const deleteQuiz = async (req, res) => {
      }
 }
 
+// enroll in quiz controller
 export const enrollInQuiz = async (req, res) => {
 
      try {

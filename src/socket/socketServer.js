@@ -1,5 +1,6 @@
 import { Server } from "socket.io";
 
+// initialize socket server
 export function initializeSocketServer(server) {
 
      // create socket server
@@ -20,7 +21,6 @@ export function initializeSocketServer(server) {
                     console.log(`Tutor with ID: ${tutorId} joined their room.`);
                });
 
-               
 
           // handle disconnection
           socket.on("disconnect", () => {

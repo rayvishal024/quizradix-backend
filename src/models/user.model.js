@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 
-
+// user schema
 const userSchema = new mongoose.Schema({
      name: {
           type: String,
@@ -30,6 +30,7 @@ const userSchema = new mongoose.Schema({
      }
 }, {timestamps: true});
 
+
  // methode for generate instance token
 userSchema.methods.generateAuthToken = function () {
      return jwt.sign({ id: this._id, role: this.role }, process.env.JWT_SECRET, {
@@ -37,10 +38,12 @@ userSchema.methods.generateAuthToken = function () {
      })
 }
 
+
 // methode for compare password with hash password
 userSchema.methods.comparePassword = async function (candidatePassword) {
      return await bcrypt.compare(candidatePassword, this.password)
 }
+
 
 // static methode for hashing password
 userSchema.statics.hashPassword = async function (password) {
@@ -48,6 +51,7 @@ userSchema.statics.hashPassword = async function (password) {
      return await bcrypt.hash(password, saltRounds);
 }
 
+// user model
 const userModel = mongoose.model('User', userSchema);
 
 export default userModel;

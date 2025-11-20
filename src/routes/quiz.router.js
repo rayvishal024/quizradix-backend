@@ -17,11 +17,14 @@ router.post('/create-quiz',
 // get tutor quiz route
 router.get('/tutor-quiz', isloggedIn, isTutor, getTutorQuizzes);
 
+
 // delete quiz route
 router.delete('/delete-quiz', isloggedIn, isTutor, deleteQuiz);
 
+
 // enroll in quiz route
 router.post("/enroll", isloggedIn,  enrollInQuiz);
+
 
 // test route
 router.get('/test', isloggedIn, isTutor, (req, res) => {

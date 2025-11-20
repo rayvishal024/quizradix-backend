@@ -2,6 +2,7 @@ import otpModel from "../models/otp.model.js";
 import userModel from "../models/user.model.js";
 import otpgenerator from "otp-generator";
 
+// send otp
 export const sendOTP = async (req, res) => {
      try {
           const { email } = req.body;

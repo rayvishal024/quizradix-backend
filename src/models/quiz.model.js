@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-
+// quiz schema
 const quizSchema = new mongoose.Schema({
      tutorId: {
           type: mongoose.Schema.Types.ObjectId,
@@ -62,7 +62,7 @@ const quizSchema = new mongoose.Schema({
      },
 });
 
-
+// quiz model
 const quizModel = mongoose.model("Quiz", quizSchema);
 
 export default quizModel;

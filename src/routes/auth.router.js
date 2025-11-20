@@ -5,10 +5,13 @@ import { isloggedIn } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 
+// registration routes
 router.post('/register', validateRegistrationData, handleValidationErrors, registerUser);
+
+// login route
 router.post('/login', validateEmail, handleValidationErrors, loginUser);
 
-
+// test route
 router.get('/test', isloggedIn, (req, res) => {
      res.json({
           message: "Auth route is working",

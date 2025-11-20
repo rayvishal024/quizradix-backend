@@ -3,7 +3,7 @@ import app from './app.js'
 import dotenv from 'dotenv'
 import connDB from "./config/db.js";
 import http from 'http';
-import { initializeSocketServer } from "./socket/socketserver.js";
+import { initializeSocketServer } from "./socket/socketServer.js";
 
 // configure dotenv
 dotenv.config();

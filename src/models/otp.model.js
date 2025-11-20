@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { sendMail } from "../utils/mailSender.js";
 
+// otp schema
 const otpSchema = new mongoose.Schema({
      email: {
           type: String,

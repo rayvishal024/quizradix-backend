@@ -5,9 +5,12 @@ import { validateEmail, handleValidationErrors } from '../middlewares/validator.
 
 const router = express.Router();
 
+// send and verify otp routes
 router.post('/sendOTP', validateEmail, handleValidationErrors, sendOTP);
+
 router.post('/verifyOTP', verifyOTP);
 
+// test route
 router.get('/test',  (req, res) => {
      res.json({
           message: "OTP route is working",

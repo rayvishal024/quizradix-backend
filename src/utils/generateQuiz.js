@@ -1,7 +1,7 @@
 import model from "../config/gemini.js";
 import { quizPromptTemplate } from "../prompts/quiz.prompt.js";
 
-
+// function to generate quiz using Gemini model
 export async function generateQuiz(topic, questionCount, customMessage = "") {
      try {
 
