@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import connDB from "./config/db.js";
 import http from 'http';
 import { initializeSocketServer } from "./socket/socketServer.js";
+import { scheduleQuizTasks } from "./schedular/quiz.schedular.js";
 
 // configure dotenv
 dotenv.config();
@@ -12,7 +13,10 @@ dotenv.config();
 const server = http.createServer(app);
 
 // initialize socket server
-initializeSocketServer(server);
+const io = initializeSocketServer(server);
+
+// schedule quiz related tasks
+scheduleQuizTasks(io);
 
 // PORT 
 const PORT = process.env.PORT || 4000;

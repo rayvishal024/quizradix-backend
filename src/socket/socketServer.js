@@ -21,13 +21,24 @@ export function initializeSocketServer(server) {
                     console.log(`Tutor with ID: ${tutorId} joined their room.`);
                });
 
+               // student for quiz started
+               socket.on("quiz_Started", (studentId) => {
+                    socket.join(studentId);
+                    console.log(`Student with ID: ${studentId} joined their room.`);
+               })
+
+               // tutor for quiz live now
+               socket.on("quiz_live_now", (tutorId) => {
+                    socket.join(tutorId);
+               })
+    
 
           // handle disconnection
           socket.on("disconnect", () => {
                console.log("Client disconnected:", socket.id);
           });
 
-          // additional event handlers 
+          
 
      });
 

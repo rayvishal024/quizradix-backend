@@ -19,6 +19,7 @@ This backend supports:
 - Express.js  
 - MongoDB + Mongoose  
 - Socket.io (real-time engine)  
+- Node-cron (Task Schedular)
 - Google Gemini AI (AI quiz generator)
 
 **Auth & Security**

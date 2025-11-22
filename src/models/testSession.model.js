@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 // participant schema
 const participantSchema = new mongoose.Schema({
-     userId: {
+     studentId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'User',
      },
@@ -54,3 +54,5 @@ const testSessionSchema = new mongoose.Schema({
 });
 
 const testSessionModel = mongoose.model("TestSession", testSessionSchema);
+
+export default testSessionModel;

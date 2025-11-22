@@ -60,6 +60,11 @@ const quizSchema = new mongoose.Schema({
           type: Date,
           default: Date.now,
      },
+     metadata: {
+          hasStarted: { type: Boolean, default: false },
+          hasEnded: { type: Boolean, default: false }
+     },
+
 });
 
 // quiz model
