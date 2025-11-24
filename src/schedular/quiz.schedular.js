@@ -5,7 +5,7 @@ import TestSessionModel from '../models/testSession.model.js';
 
 export function scheduleQuizTasks(io) {
 
-     // Schedule a task to run every 30 seconds
+     // Schedule a task to run every 30 seconds for auto start quiz
      cron.schedule('*/30 * * * * *', async () => {
          
           const now = new Date();
@@ -17,14 +17,9 @@ export function scheduleQuizTasks(io) {
                "metadata.hasStarted": { $ne: true },
           });
 
-          
-
 
           // traverse through each quiz and start it
           for (const quiz of quizzes) {
-
-               console.log(quiz)
-
                
                quiz.metadata.hasStarted = true;
                await quiz.save();
@@ -73,4 +68,64 @@ export function scheduleQuizTasks(io) {
           }
 
      });
-}
+
+     // schedule another task for auto end quiz
+     cron.schedule('*/30 * * * * *', async () => {
+
+          // finding current date
+          const now = new Date();
+
+          // check for any schedule quiz for end
+          const quizzes = await QuizModel.find({
+               endTime: { $lte: now },
+               "metadata.hasStarted": true,
+               "metadata.hasEnded": { $ne: true }
+          });
+
+          // travserse all quiz and perform operation
+          for (const quiz of quizzes) {
+              
+               // marks quiz has end and save
+               quiz.metadata.hasEnded = true;
+               await quiz.save();
+
+               // finding active session
+               const session = await TestSessionModel.findOne(
+                    {
+                         quizId: quiz._id, 
+                         isActive : true
+                    });
+
+               // session not found 
+               if (!session) continue;
+
+               // marks session Inactive now and save
+               session.isActive = false;
+               await session.save();
+
+               // sending notification to all student
+               quiz.enrollments.forEach((enrollment) => {
+                    io.to(enrollment.studentId.toString()).emit("quiz_ended", {
+                         message: "Quiz has Ended",
+                         sessionId: session._id,
+                         quizId : quiz._id
+                   })
+               })
+               
+               // sending notification to tutor
+               io.to(quiz.tutorId.toString()).emit("quiz_complete", {
+                    quizId: quiz._id,
+                    sessionId: session._id
+               })
+
+               console.log(`Quiz ended: ${quiz.title}`);
+
+               // calculate answer & save
+               session.participants.forEach((e) => {
+                    e.score = e.answers.filter(p => p.isCorrect).length
+               })
+               await session.save();
+
+          }
+     })
+} 

@@ -53,6 +53,6 @@ const testSessionSchema = new mongoose.Schema({
      endedAt: Date,
 });
 
-const testSessionModel = mongoose.model("TestSession", testSessionSchema);
+const TestSessionModel = mongoose.model("TestSession", testSessionSchema);
 
-export default testSessionModel;
+export default TestSessionModel;

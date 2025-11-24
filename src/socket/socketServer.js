@@ -1,4 +1,5 @@
 import { Server } from "socket.io";
+import TestSessionModel from "../models/testSession.model.js";
 
 // initialize socket server
 export function initializeSocketServer(server) {
@@ -10,7 +11,7 @@ export function initializeSocketServer(server) {
                methods: ["GET", "POST"],
           },
      });
-
+    
           // handle socket connection
           io.on("connection", (socket) => {
                console.log("New client connected:", socket.id);
@@ -32,13 +33,20 @@ export function initializeSocketServer(server) {
                     socket.join(tutorId);
                })
     
+               socket.on("submit_answer", async ({ sessionId, studentId, ...rest }) => {
+                    const session = await TestSessionModel.findById(sessionId);
+
+                    if (!session || !session.isActive) {
+                         return socket.emit("quiz_closed", { message: "Quiz has ended!" });
+                    }
+
+               });
+
 
           // handle disconnection
           socket.on("disconnect", () => {
                console.log("Client disconnected:", socket.id);
           });
-
-          
 
      });
 
