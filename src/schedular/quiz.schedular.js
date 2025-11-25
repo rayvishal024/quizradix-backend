@@ -30,7 +30,7 @@ export function scheduleQuizTasks(io) {
                     tutorId: quiz.tutorId,
                     joinCode: quiz.joinCode,
                     isActive: true,
-                    particapants: quiz.enrollments.map((enrollment) => ({
+                    participants: quiz.enrollments.map((enrollment) => ({
                          studentId: enrollment.studentId,
                          score: 0,
                          answers: [],
@@ -64,6 +64,8 @@ export function scheduleQuizTasks(io) {
                     startTime: quiz.startTime,
                     endTime: quiz.endTime,
                });
+
+               console.log("Quiz has started", quiz._id);
 
           }
 
@@ -125,7 +127,7 @@ export function scheduleQuizTasks(io) {
                     e.score = e.answers.filter(p => p.isCorrect).length
                })
                await session.save();
-
+            
           }
      })
 } 
