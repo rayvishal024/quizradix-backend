@@ -1,6 +1,8 @@
 import cron from 'node-cron';
 import QuizModel from '../models/quiz.model.js';
 import TestSessionModel from '../models/testSession.model.js';
+import { sendMail } from '../utils/mailSender.js'
+import quizModel from '../models/quiz.model.js';
 
 
 export function scheduleQuizTasks(io) {
@@ -130,4 +132,33 @@ export function scheduleQuizTasks(io) {
             
           }
      })
+
+     // Send reminder 2 min before quiz start
+     cron.schedule("*/30 * * * * *", async () => {
+
+          const now = new Date();
+          const reminderTime = new Date(now.getTime() + 2 * 60 * 1000);
+
+          const upcomingQuizzes = await quizModel.find({
+               startTime: { $lte: reminderTime },
+               "metadata.reminderSent": { $ne: true }
+          }).populate("enrollments.studentId", "email name");
+
+          for (const quiz of upcomingQuizzes) {
+               for (const en of quiz.enrollments) {
+                    await sendMail(
+                         en.studentId.email,
+                         `Your quiz "${quiz.title}" starts soon`,
+                         `<p>Hello ${en.studentId.name},</p>
+         <p>Your quiz <b>${quiz.title}</b> will start soon.</p>`
+                    );
+               }
+
+               quiz.metadata.reminderSent = true;
+               await quiz.save();
+
+               console.log("Reminder sent:", quiz.title);
+          }
+     });
+
 } 

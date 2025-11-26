@@ -53,6 +53,10 @@ const testSessionSchema = new mongoose.Schema({
      endedAt: Date,
 });
 
+testSessionSchema.index({ tutorId: 1 });
+testSessionSchema.index({ quizId: 1 });
+
+
 const TestSessionModel = mongoose.model("TestSession", testSessionSchema);
 
 export default TestSessionModel;

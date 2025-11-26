@@ -62,10 +62,17 @@ const quizSchema = new mongoose.Schema({
      },
      metadata: {
           hasStarted: { type: Boolean, default: false },
-          hasEnded: { type: Boolean, default: false }
+          hasEnded: { type: Boolean, default: false },
+          reminderSent: { type: Boolean, default: false }
      },
 
 });
+
+// index
+quizSchema.index({ startTime: 1 });
+quizSchema.index({ endTime: 1 });
+quizSchema.index({ "metadata.hasStarted": 1 });
+
 
 // quiz model
 const quizModel = mongoose.model("Quiz", quizSchema);
