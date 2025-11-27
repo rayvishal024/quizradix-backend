@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-console.log("EMAIL_USER:", process.env.EMAIL_USER);
+
 
 // function to send mail
 export const sendMail = async (to, subject, text) => {

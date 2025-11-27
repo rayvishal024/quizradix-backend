@@ -84,6 +84,7 @@ export const getTutorQuizzes = async (req, res) => {
      }
 }
 
+
 // delete quiz controller
 export const deleteQuiz = async (req, res) => {
      try {
@@ -120,6 +121,7 @@ export const deleteQuiz = async (req, res) => {
           });
      }
 }
+
 
 // enroll in quiz controller
 export const enrollInQuiz = async (req, res) => {

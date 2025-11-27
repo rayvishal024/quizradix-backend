@@ -1,69 +1,82 @@
-import quizModel from '../../models/quiz.model.js'
-import TestSessionModel from '../../models/testSession.model.js'
+import TestSessionModel from "../../models/testSession.model.js";
+import quizModel from "../../models/quiz.model.js";
+import { calculateLeaderboard } from "../../services/leaderboard.service.js";
+
 
 export default async function submitAnswerListener(io, socket, data) {
+     try {
 
-    try {
-      const { sessionId, studentId, questionIndex, selected } = data;
-       
-      // finding session
-      const session = TestSessionModel.findById(sessionId);
- 
-      if (session || session.isActive) {
-           return socket.emit("quiz_closed", { message: "Quiz has ended" });
-      }
- 
-      // finding quiz
-      const quiz = quizModel.findById(session.quizId);
- 
-      // finding correct answer
-      const correctAnswer = quiz.questions[questionIndex].correctAnswer;
- 
-      // finding participants
-      const participant = TestSessionModel.participant.find(
-           (p) => p.studentId.toString() === studentId);
-      
-      if (!participant) return;
- 
-      // finding existing answer
-      const existing = participant.answers.find((a) => a.questionIndex === questionIndex)
- 
-      if (existing) {
-           existing.answer = selected;
-           existing.isCorrect = selected === correctAnswer;
-      }
-      else {
- 
-           // insert new record
-           participant.answers.push({
-                questionIndex,
-                answer: selected,
-                isCorrect: selected === correctAnswer
-           })
-      }
- 
- 
-      // Update score
-      participant.score = participant.answers.filter((a) => a.isCorrect).length;
-      await session.save();
- 
-      // finding leaderboard
-      const leaderboard = session.participants.map((p) => ({
-           studentId: p.studentId,
-           score: p.score
-      })).sort((a, b) => b.score - a.score);
- 
-      // sending response to tutor with leaderboard
-      io.to(session.tutorId.toString()).emit("leaderboard_update", leaderboard);
- 
-      // sending response to all participants with their score
-      session.participants.forEach((p) => {
-           io.to(p.studentId.toString()).emit("leaderboard_update", leaderboard);
-      });
- 
-    } catch (error) {
-         console.log("Error submitAnswerListener - ", error.message);
-         return;
-    }
+          // validate payload minimal
+          const { sessionId, questionIndex, selected } = data || {};
 
+          if (!sessionId || questionIndex === undefined || selected === undefined) {
+               return socket.emit("error", { message: "Invalid payload for submit_answer" });
+          }
+
+          // ensure role
+          if (socket.user.role !== "student") {
+               return socket.emit("error", { message: "Only students can submit answers" });
+          }
+
+
+          const studentId = socket.user._id.toString();
+
+          // load session and quiz
+          const session = await TestSessionModel.findById(sessionId);
+
+          if (!session || !session.isActive) {
+               return socket.emit("quiz_closed", { message: "Quiz is not active" });
+          }
+
+          // ensure participant exists
+          const participant = session.participants.find(p => p.studentId.toString() === studentId);
+
+          // Not registered 
+          if (!participant) {
+               return socket.emit("error", { message: "You are not registered in this session" });
+          }
+
+          
+          // pull correct answer from Quiz 
+          const quiz = await quizModel.findById(session.quizId).lean();
+
+        // quiz not exist
+          if (!quiz) {
+               return socket.emit("error", { message: "Quiz not found" });
+}
+
+          // finding all question
+          const question = quiz.questions[questionIndex];
+          
+          if (!question) return socket.emit("error", { message: "Question index invalid" });
+
+          // update or insert answer
+          const existing = participant.answers.find(a => a.questionIndex === questionIndex);
+
+          const isCorrect = question.correctAnswer === selected;
+
+
+          if (existing) {
+               existing.answer = selected;
+               existing.isCorrect = isCorrect;
+          } else {
+               participant.answers.push({ questionIndex, answer: selected, isCorrect });
+          }
+
+          // update score
+          participant.score = participant.answers.filter(a => a.isCorrect).length;
+
+          await session.save();
+
+          // broadcast leaderboard to session room & tutor
+          const leaderboard = calculateLeaderboard(session.participants);
+          io.to(`session:${sessionId}`).emit("leaderboard_update", leaderboard);
+          io.to(`tutor:${session.tutorId.toString()}`).emit("leaderboard_update", leaderboard);
+
+          
+     } catch (err) {
+          
+          console.error("submitAnswerListener err:", err);
+          socket.emit("error", { message: "Server error on submit_answer" });
+     }
 }

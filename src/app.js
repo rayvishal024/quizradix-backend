@@ -26,7 +26,7 @@ app.use(rateLimit({
 
 // cors
 app.use(cors({
-     "origin": process.env.CORS_ORIGIN ,
+     "origin": process.env.FRONTEND_ORIGIN ,
      "methods": "GET,PUT,PATCH,POST,DELETE",
      "preflightContinue": false,
      "optionsSuccessStatus": 204

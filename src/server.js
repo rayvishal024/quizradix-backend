@@ -3,7 +3,7 @@ import app from './app.js'
 import dotenv from 'dotenv'
 import connDB from "./config/db.js";
 import http from 'http';
-import { initializeSocketServer } from "./socket/socketServer.js";
+import { initSocketServer } from "./socket/socketServer.js";
 import { scheduleQuizTasks } from "./schedular/quiz.schedular.js";
 
 // configure dotenv
@@ -13,7 +13,7 @@ dotenv.config();
 const server = http.createServer(app);
 
 // initialize socket server
-const io = initializeSocketServer(server);
+const io = initSocketServer(server);
 
 // schedule quiz related tasks
 scheduleQuizTasks(io);

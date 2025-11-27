@@ -1,37 +1,37 @@
 import { Server } from "socket.io";
-import registerStudentHandlers from './studentHandlers.js'
-import registerTutorHandlers from './tutorHandlers.js'
+import { socketAuthMiddleware } from "../middlewares/socketAuth.middleware.js"
+import registerStudentHandlers from "./studentHandlers.js";
+import registerTutorHandlers from "./tutorHandlers.js";
 
 
-// initialize socket server
-export function initializeSocketServer(server) {
+// socket server
+export function initSocketServer(server) {
 
-     // create socket server
+     // creating socket server
      const io = new Server(server, {
-          cors: {
-               origin: "*",
-               methods: ["GET", "POST"],
-          },
+          cors: { origin: process.env.FRONTEND_ORIGIN || "*" },
+          pingInterval: 25000,
+          pingTimeout: 60000,
+          maxHttpBufferSize: 1e6,
      });
-    
-          // handle socket connection
-          io.on("connection", (socket) => {
-               console.log("New client connected:", socket.id);
-               
 
-               registerStudentHandlers(io, socket);
-               
-               
-              registerTutorHandlers(io, socket);
+     // auth-socket middleware
+     io.use(socketAuthMiddleware);
 
+     io.on("connection", (socket) => {
 
-          // handle disconnection
-          socket.on("disconnect", () => {
-               console.log("Client disconnected:", socket.id);
+          // finding user
+          const user = socket.user;
+          console.log(`Socket connected: ${socket.id} user:${user._id} role:${user.role}`);
+
+          // register grouped handlers
+          registerStudentHandlers(io, socket);
+          registerTutorHandlers(io, socket);
+
+          socket.on("disconnect", (reason) => {
+               console.log(`Socket disconnected: ${socket.id} reason:${reason}`);
           });
-
      });
 
      return io;
-
 }
