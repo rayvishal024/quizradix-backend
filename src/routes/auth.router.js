@@ -5,6 +5,8 @@ import { isloggedIn } from '../middlewares/auth.middleware.js';
 
 const router = express.Router();
 
+// #swagger.tags = ['Auth']
+
 // registration routes
 router.post('/register', validateRegistrationData, handleValidationErrors, registerUser);
 

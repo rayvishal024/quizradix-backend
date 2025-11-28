@@ -3,6 +3,12 @@ import cors from 'cors'
 import helmet from 'helmet'
 import cookieParser from 'cookie-parser';
 import rateLimit from "express-rate-limit";
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
+const swaggerFile = require("../swagger-output.json");
+import swaggerUi from "swagger-ui-express";
+
 
 // import all routes
 import authRouter from './routes/auth.router.js'
@@ -40,6 +46,9 @@ app.use(helmet());
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+// swagger set-up for documentation
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 
 // set-up routes

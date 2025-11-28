@@ -5,6 +5,8 @@ import { validateEmail, handleValidationErrors } from '../middlewares/validator.
 
 const router = express.Router();
 
+// #swagger.tags = ['otp']
+
 // send and verify otp routes
 router.post('/sendOTP', validateEmail, handleValidationErrors, sendOTP);
 

@@ -6,6 +6,7 @@ import http from 'http';
 import { initSocketServer } from "./socket/socketServer.js";
 import { scheduleQuizTasks } from "./schedular/quiz.schedular.js";
 
+
 // configure dotenv
 dotenv.config();
 
@@ -17,6 +18,7 @@ const io = initSocketServer(server);
 
 // schedule quiz related tasks
 scheduleQuizTasks(io);
+
 
 // PORT 
 const PORT = process.env.PORT || 4000;

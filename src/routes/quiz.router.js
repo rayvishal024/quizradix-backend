@@ -6,6 +6,7 @@ import { enrollInQuiz } from '../controllers/quiz.controller.js';
 
 const router = express.Router();
 
+// #swagger.tags = ['quiz']
 
 // create quiz route
 router.post('/create-quiz',

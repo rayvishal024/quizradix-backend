@@ -5,6 +5,7 @@ import { getStudentResult, getTutorResults } from '../controllers/result.control
 
 const router = express.Router();
 
+// #swagger.tags = ['result']
 
 // get student routes 
 router.get('/student/:sessionId', isloggedIn, getStudentResult);
