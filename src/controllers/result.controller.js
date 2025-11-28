@@ -1,5 +1,6 @@
 import quizModel from "../models/quiz.model.js"
 import TestSessionModel from "../models/testSession.model.js"
+import { calculateLeaderboard } from "../../services/leaderboard.service.js";
 
 
 export const getStudentResult = async (req, res) => {
@@ -63,11 +64,7 @@ export const getTutorResults = async (req, res) => {
           }
 
           // finding leaderboard
-          const leaderboard = session.participants.map((e) => ({
-               student: p.studentId,
-               score: p.score,
-               answers: p.answers
-          })).sort((a, b) => b.score - a.score);
+          const leaderboard = calculateLeaderboard(session.participants);
 
           return res.status(200).json({
                success: true,
