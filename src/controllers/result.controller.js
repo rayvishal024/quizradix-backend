@@ -1,6 +1,6 @@
 import quizModel from "../models/quiz.model.js"
 import TestSessionModel from "../models/testSession.model.js"
-import { calculateLeaderboard } from "../../services/leaderboard.service.js";
+import { calculateLeaderboard } from "../services/leaderboard.service.js";
 
 
 export const getStudentResult = async (req, res) => {
