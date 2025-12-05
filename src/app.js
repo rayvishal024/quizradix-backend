@@ -30,10 +30,13 @@ app.use(rateLimit({
      max: 200,
 }));
 
+console.log(process.env.FRONTEND_ORIGIN)
+
 // cors
 app.use(cors({
      "origin": process.env.FRONTEND_ORIGIN ,
      "methods": "GET,PUT,PATCH,POST,DELETE",
+     "credentials": true,
      "preflightContinue": false,
      "optionsSuccessStatus": 204
 }));
